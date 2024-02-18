@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Item\Shield\Ui\Http\Ports;
+namespace App\Item\Shield\Ui;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
