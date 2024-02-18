@@ -7,6 +7,7 @@ namespace App\Item\Shield\Ui;
 
 use App\Item\Core\Command\Add\AddItemCommand;
 use App\Shared\Core\Bus\CommandBusInterface;
+use Assert\Assert;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -27,13 +28,49 @@ final readonly class AddItemPort
     public function __invoke(
         Request $request,
     ): Response {
+        $payload = json_decode($request->getContent());
+
+        if (! $payload) {
+            //TODO: Change this for a custom exception
+            throw new \RuntimeException('No content!');
+        }
+
+        Assert::lazy()->tryAll()
+            ->that($payload)
+            ->propertyExists(
+                'id',
+                'Request does not contain id property',
+                'itemId.notFound'
+            )
+            ->propertyExists(
+                'name',
+                'Request does not contains name property',
+                'itemName.notFound'
+            )
+            ->propertyExists(
+                'description',
+                'Request does not contains description property',
+                'itemDescription.notFound'
+            )
+            ->propertyExists(
+                'quantity',
+                'Request does not contains quantity property',
+                'itemQuantity.notFound'
+            )
+            ->propertyExists(
+                'price',
+                'Request does not contains price property',
+                'itemPrice.notFound'
+            )
+            ->verifyNow();
+
         $this->commandBus->handle(
             new AddItemCommand(
-                id: '6bf4d9f2-0cd1-4b0e-b92c-ba7a05811861',
-                name: 'Prueba 1',
-                description: 'Primera prueba',
-                quantity: 5,
-                price: 10.95
+                id: $payload->id,
+                name: $payload->name,
+                description: $payload->description,
+                quantity: $payload->quantity,
+                price: $payload->price
             )
         );
 
