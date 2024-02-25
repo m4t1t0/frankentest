@@ -10,6 +10,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/assert": "3.3.*",
+        "eventsauce/eventsauce": "^3.4",
         "runtime/frankenphp-symfony": "dev-main",
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
