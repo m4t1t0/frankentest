@@ -12,13 +12,17 @@ use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\PaginationCursor;
-
-class FilesystemMessageRepository implements MessageRepository
+use Redis;
+class RedisMessageRepository implements MessageRepository
 {
+    private Redis $redis;
     private MessageSerializer|ConstructingMessageSerializer $serializer;
 
-    public function __construct(MessageSerializer $serializer = null)
-    {
+    public function __construct(
+        Redis $redis,
+        MessageSerializer $serializer = null
+    ) {
+        $this->redis = $redis;
         $this->serializer = $serializer ?: new ConstructingMessageSerializer();
     }
 
@@ -26,17 +30,9 @@ class FilesystemMessageRepository implements MessageRepository
     {
         foreach ($messages as $message) {
             $aggregateRootId = $message->header(Header::AGGREGATE_ROOT_ID);
-            $version = $message->header(Header::AGGREGATE_ROOT_VERSION);
-
-            if ( ! is_dir(__DIR__.'/'.$aggregateRootId)) {
-                mkdir(__DIR__.'/'.$aggregateRootId);
-            }
-
             $payload = $this->serializer->serializeMessage($message);
-            file_put_contents(
-                __DIR__ . "/{$aggregateRootId}/{$version}.json",
-                json_encode($payload, JSON_PRETTY_PRINT)
-            );
+
+            $this->redis->set($aggregateRootId->toString(), json_encode($payload));
         }
     }
 

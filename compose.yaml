@@ -33,6 +33,15 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+        
+  redis:
+    image: redis/redis-stack:6.2.6-v9
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --protected-mode no
+    volumes:
+      - ./redis:/data
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###

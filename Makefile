@@ -26,15 +26,15 @@ help: ## Display help
 
 .PHONY: build
 build: ## Initialize this project
-	docker compose build $(CONTAINER_APP_NAME) --build-arg UID=$(UID) --build-arg GID=$(GID) --no-cache
+	docker compose build --build-arg UID=$(UID) --build-arg GID=$(GID) --no-cache
 
 .PHONY: start
 start: ## Start this project
-	docker compose up $(CONTAINER_APP_NAME) --pull always -d --wait
+	docker compose up --pull always -d --wait
 
 .PHONY: down
 down: ## Stop this project
-	docker compose down $(CONTAINER_APP_NAME) --remove-orphans
+	docker compose down --remove-orphans
 
 .PHONY: sh
 sh: ## Takes you inside the container
