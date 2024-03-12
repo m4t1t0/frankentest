@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace App\Shared\Shield\EventSourcing;
 
-use Generator;
+use App\Shared\Shield\Redis\RedisClientInterface;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\PaginationCursor;
-use Redis;
+use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
+use EventSauce\EventSourcing\Serialization\MessageSerializer;
+use Generator;
+
 class RedisMessageRepository implements MessageRepository
 {
-    private Redis $redis;
+    private RedisClientInterface $redis;
     private MessageSerializer|ConstructingMessageSerializer $serializer;
 
     public function __construct(
-        Redis $redis,
+        RedisClientInterface $redis,
         MessageSerializer $serializer = null
     ) {
         $this->redis = $redis;
