@@ -12,10 +12,16 @@ use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\PaginationCursor;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
+use EventSauce\EventSourcing\UnableToRetrieveMessages;
+use EventSauce\EventSourcing\OffsetCursor;
 use Generator;
+use LogicException;
+use Throwable;
 
 class RedisMessageRepository implements MessageRepository
 {
+    private const string EVENTS_PREFIX = 'es_events';
+
     private RedisClientInterface $redis;
     private MessageSerializer|ConstructingMessageSerializer $serializer;
 
@@ -33,57 +39,91 @@ class RedisMessageRepository implements MessageRepository
             $aggregateRootId = $message->header(Header::AGGREGATE_ROOT_ID);
             $payload = $this->serializer->serializeMessage($message);
 
-            $this->redis->set($aggregateRootId->toString(), json_encode($payload));
+            $this->redis->rpush(
+                key: static::EVENTS_PREFIX . '_' . $aggregateRootId->toString(),
+                value: json_encode($payload),
+            );
         }
     }
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $directory = __DIR__ . '/' . $id->toString();
+        $key = static::EVENTS_PREFIX . '_' . $id->toString();
 
-        if (!is_dir($directory)) {
+        if (! $this->redis->exists($key)) {
             return 0;
         }
 
-        foreach (array_diff(scandir($directory), array('..', '.')) as $file) {
-            $message = $this->serializer->unserializePayload(
-                json_decode(
-                    file_get_contents($directory.'/'.$file),
-                    true
-                )
-            );
-
-            yield $message;
+        $payloads = [];
+        while ($payload = $this->redis->lpop($key)) {
+            $payloads[] = $payload;
         }
 
-        return isset($message) ? $message->header(Header::AGGREGATE_ROOT_VERSION) : 0;
+        try {
+            return $this->yieldMessagesFromPayloads($payloads);
+        } catch (Throwable $exception) {
+            throw UnableToRetrieveMessages::dueTo('', $exception);
+        }
     }
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
-        $directory = __DIR__.'/'.$id->toString();
+        $key = static::EVENTS_PREFIX . '_' . $id->toString();
 
-        if ( ! is_dir($directory)) {
+        if (! $this->redis->exists($key)) {
             return 0;
         }
 
-        foreach (array_diff(scandir($directory), array('..', '.')) as $file) {
-            if ($aggregateRootVersion >= (int) $file) continue;
+        $payloads = [];
+        while ($payload = $this->redis->lpop($key)) {
+            $decodedPayload = json_decode($payload, true);
+            $version = (int)$decodedPayload['version'];
+            if ($version <= $aggregateRootVersion) {
+                continue;
+            }
 
-            $message = $this->serializer->unserializePayload(
-                json_decode(
-                    file_get_contents($directory.'/'.$file),
-                    true
-                )
-            );
-
-            yield $message;
+            $payloads[] = $payload;
         }
 
-        return isset($message) ? $message->header(Header::AGGREGATE_ROOT_VERSION) : 0;
+        try {
+            return $this->yieldMessagesFromPayloads($payloads);
+        } catch (Throwable $exception) {
+            throw UnableToRetrieveMessages::dueTo('', $exception);
+        }
     }
 
     public function paginate(PaginationCursor $cursor): Generator
     {
-        // TODO: Implement paginate() method.
+        if (!$cursor instanceof OffsetCursor) {
+            throw new LogicException(sprintf('Wrong cursor type used, expected %s, received %s', OffsetCursor::class, get_class($cursor)));
+        }
+
+        $numberOfMessages = 0;
+
+        $keys = $this->redis->keys(static::EVENTS_PREFIX . '*');
+        try {
+            for ($i = $cursor->offset(); $i < $cursor->limit(); $i++) {
+                $numberOfMessages++;
+                $payload = $this->redis->lpop($keys[$i]);
+                yield $this->serializer->unserializePayload(json_decode($payload, true));
+            }
+        } catch (Throwable $exception) {
+            throw UnableToRetrieveMessages::dueTo($exception->getMessage(), $exception);
+        }
+
+        return $cursor->plusOffset($numberOfMessages);
+    }
+
+    /**
+     * @psalm-return Generator<Message>
+     */
+    private function yieldMessagesFromPayloads(iterable $payloads): Generator
+    {
+        foreach ($payloads as $payload) {
+            yield $message = $this->serializer->unserializePayload(json_decode($payload, true));
+        }
+
+        return isset($message)
+            ? $message->header(Header::AGGREGATE_ROOT_VERSION) ?: 0
+            : 0;
     }
 }
