@@ -28,16 +28,18 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
-    App\Shared\Shield\Redis\WriteRedisClient:
+    redis_client.write:
+        class: App\Shared\Shield\Redis\RedisClient
         arguments:
             $dsn: '%env(REDIS_WRITE_REPOSITORY)%'
             
-    App\Shared\Shield\Redis\ReadRedisClient:
+    redis_client.read:
+        class: App\Shared\Shield\Redis\RedisClient
         arguments:
             $dsn: '%env(REDIS_READ_REPOSITORY)%'
     
     App\Shared\Shield\EventSourcing\RedisMessageRepository:
         arguments:
-            $redis: '@App\Shared\Shield\Redis\WriteRedisClient'
+            $redis: '@redis_client.write'
     
     EventSauce\EventSourcing\MessageRepository: '@App\Shared\Shield\EventSourcing\RedisMessageRepository'
