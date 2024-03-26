@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Item\Core\Aggregate\Item;
 
 use App\Item\Core\Aggregate\Item\Events\V1\ItemWasAdded;
+use App\Item\Core\Aggregate\Item\Events\V1\ItemWasModified;
 use App\Item\Core\Aggregate\Item\ValueObjects\Name;
 use App\Item\Core\Aggregate\Item\ValueObjects\Description;
 use App\Item\Core\Aggregate\Item\ValueObjects\Quantity;
-use App\Item\Core\Aggregate\Item\ValueObjects\Region;
 use App\Shared\Core\ValueObjects\Money;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootBehaviour;
@@ -53,5 +53,30 @@ class Item implements AggregateRoot
         $this->quantity = Quantity::fromInt($event->quantity);
         $this->price = Money::fromData($event->price, static::DEFAULT_CURRENCY);
         $this->active = $event->active;
+    }
+
+    public function modify(
+        string $name,
+        string $description,
+        int $quantity,
+        float $price,
+    ): void {
+        $this->recordThat(
+            new ItemWasModified(
+                id: (string)$this->aggregateRootId(),
+                name: $name,
+                description: $description,
+                quantity: $quantity,
+                price: $price,
+            ),
+        );
+    }
+
+    protected function applyItemWasModified(ItemWasModified $event): void
+    {
+        $this->name = Name::fromString($event->name);
+        $this->description = Description::fromString($event->description);
+        $this->quantity = Quantity::fromInt($event->quantity);
+        $this->price = Money::fromData($event->price, static::DEFAULT_CURRENCY);
     }
 }

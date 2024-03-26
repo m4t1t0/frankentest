@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Item\Shield\Ui;
 
-use App\Item\Core\Command\Add\AddItemCommand;
+use App\Item\Core\Command\Modify\ModifyItemCommand;
 use App\Shared\Core\Bus\CommandBusInterface;
 use Assert\Assert;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
     path: '/api/item',
-    methods: Request::METHOD_POST,
+    methods: Request::METHOD_PUT,
 )]
 #[AsController]
-final readonly class AddItemPort
+final readonly class ModifyItemPort
 {
     public function __construct(
         private CommandBusInterface $commandBus,
@@ -64,7 +64,7 @@ final readonly class AddItemPort
             ->verifyNow();
 
         $this->commandBus->handle(
-            new AddItemCommand(
+            new ModifyItemCommand(
                 id: $payload->id,
                 name: $payload->name,
                 description: $payload->description,

@@ -22,7 +22,7 @@ class RedisClient implements RedisClientInterface
 
     public function exists(string $key): bool
     {
-        return $this->redis->exists($key);
+        return (bool)$this->redis->exists($key);
     }
 
     public function rpush(string $key, string $value): int
@@ -30,9 +30,9 @@ class RedisClient implements RedisClientInterface
         return $this->redis->rpush($key, $value);
     }
 
-    public function lpop(string $key): string
+    public function lrange(string $key, int $start = 0, int $end = -1): array
     {
-        return $this->redis->lpop($key);
+        return $this->redis->lrange($key, $start, $end);
     }
 
     public function keys(string $pattern): array

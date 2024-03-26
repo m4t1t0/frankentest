@@ -54,11 +54,7 @@ class RedisMessageRepository implements MessageRepository
             return 0;
         }
 
-        $payloads = [];
-        while ($payload = $this->redis->lpop($key)) {
-            $payloads[] = $payload;
-        }
-
+        $payloads = $this->redis->lrange($key);
         try {
             return $this->yieldMessagesFromPayloads($payloads);
         } catch (Throwable $exception) {
@@ -73,10 +69,12 @@ class RedisMessageRepository implements MessageRepository
             return 0;
         }
 
+        $allPayloads = $this->redis->lrange($key);
         $payloads = [];
-        while ($payload = $this->redis->lpop($key)) {
+        foreach ($allPayloads as $payload) {
             $decodedPayload = json_decode($payload, true);
             $version = (int)$decodedPayload['version'];
+
             if ($version <= $aggregateRootVersion) {
                 continue;
             }
