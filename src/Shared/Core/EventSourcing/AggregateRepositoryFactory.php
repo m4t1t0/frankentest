@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Core\EventSourcing;
 
+use App\Item\Core\Command\Modify\ModifyItemProjection;
 use App\Item\Core\ItemProjectionPersister;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\EventSourcedAggregateRootRepository;
@@ -25,7 +26,8 @@ readonly class AggregateRepositoryFactory
     public function instance(string $className): EventSourcedAggregateRootRepository
     {
         $messageDispatcher = new SynchronousMessageDispatcher(
-            new AddItemProjection($this->projection)
+            new AddItemProjection($this->projection),
+            new ModifyItemProjection($this->projection),
         );
 
         return new EventSourcedAggregateRootRepository(
