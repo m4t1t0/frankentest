@@ -43,3 +43,7 @@ services:
             $redis: '@redis_client.write'
     
     EventSauce\EventSourcing\MessageRepository: '@App\Shared\Shield\EventSourcing\RedisMessageRepository'
+
+    App\Item\Shield\Persistence\RedisItemProjectionPersister:
+        arguments:
+            $redis: '@redis_client.read'
