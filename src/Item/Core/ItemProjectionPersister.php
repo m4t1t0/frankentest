@@ -18,5 +18,6 @@ interface ItemProjectionPersister
         Description $description,
         Quantity $quantity,
         Money $price,
+        bool $active,
     ): void;
 }

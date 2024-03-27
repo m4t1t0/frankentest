@@ -15,6 +15,11 @@ class RedisClient implements RedisClientInterface
         $this->redis = RedisAdapter::createConnection($dsn);
     }
 
+    public function get(string $key): mixed
+    {
+        return $this->redis->get($key);
+    }
+
     public function set(string $key, string $value): Redis|bool
     {
         return $this->redis->set($key, $value);

@@ -30,7 +30,8 @@ class ModifyItemProjection extends EventConsumer
             name: Name::fromString($event->name),
             description: Description::fromString($event->description),
             quantity: Quantity::fromInt($event->quantity),
-            price: Money::fromData($event->price, static::DEFAULT_CURRENCY)
+            price: Money::fromData($event->price, static::DEFAULT_CURRENCY),
+            active: $event->active,
         );
     }
 }

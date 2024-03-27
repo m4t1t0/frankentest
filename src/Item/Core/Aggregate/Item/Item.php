@@ -68,6 +68,7 @@ class Item implements AggregateRoot
                 description: $description,
                 quantity: $quantity,
                 price: $price,
+                active: $this->active,
             ),
         );
     }

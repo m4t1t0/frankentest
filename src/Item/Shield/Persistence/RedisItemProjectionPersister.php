@@ -17,7 +17,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
     private const ALL_ITEMS_PREFIX = 'all_items';
 
     public function __construct(
-        private RedisClientInterface $redis,
+        private readonly RedisClientInterface $redis,
     ) {
     }
     public function persist(
@@ -26,14 +26,17 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         Description $description,
         Quantity $quantity,
         Money $price,
+        bool $active,
     ): void
     {
         $key = self::ALL_ITEMS_PREFIX . '_' . $id->toString();
         $this->redis->set($key, json_encode([
+            'id' => $id->toString(),
             'name' => $name->toString(),
             'description' => $description->toString(),
             'quantity' => $quantity->toInt(),
             'price' => $price->toArray(),
+            'active' => $active,
         ]));
     }
 }

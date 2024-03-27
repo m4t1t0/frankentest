@@ -14,7 +14,7 @@ final readonly class ItemWasModified implements SerializablePayload
         public string $description,
         public int $quantity,
         public float $price,
-        public bool $active = true,
+        public bool $active,
     ) {
     }
 

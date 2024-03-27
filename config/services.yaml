@@ -25,6 +25,10 @@ services:
             tags:
                 - { name: 'messenger.message_handler', bus: 'messenger.bus.default', method: 'handle' }
 
+        App\Shared\Core\Query\QueryHandlerInterface:
+            tags:
+                - { name: 'messenger.message_handler', bus: 'messenger.bus.default', method: 'handle' }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
@@ -45,5 +49,9 @@ services:
     EventSauce\EventSourcing\MessageRepository: '@App\Shared\Shield\EventSourcing\RedisMessageRepository'
 
     App\Item\Shield\Persistence\RedisItemProjectionPersister:
+        arguments:
+            $redis: '@redis_client.read'
+
+    App\Item\Shield\Persistence\RedisItemRepository:
         arguments:
             $redis: '@redis_client.read'
