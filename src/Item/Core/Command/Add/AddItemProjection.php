@@ -13,13 +13,16 @@ use App\Item\Core\ItemProjectionPersister;
 use App\Shared\Core\ValueObjects\Money;
 use EventSauce\EventSourcing\EventConsumption\EventConsumer;
 use EventSauce\EventSourcing\Message;
+use Psr\Clock\ClockInterface;
+use DateTimeInterface;
 
 class AddItemProjection extends EventConsumer
 {
     const string DEFAULT_CURRENCY = 'EUR';
 
     public function __construct(
-        private ItemProjectionPersister $projection,
+        private readonly ItemProjectionPersister $projection,
+        private readonly ClockInterface $clock,
     ) {
     }
 
@@ -32,6 +35,8 @@ class AddItemProjection extends EventConsumer
             quantity: Quantity::fromInt($event->quantity),
             price: Money::fromData($event->price, static::DEFAULT_CURRENCY),
             active: $event->active,
+            dateAdd: $this->clock->now()->format(DateTimeInterface::ATOM),
+            dateUpd: $this->clock->now()->format(DateTimeInterface::ATOM),
         );
     }
 }

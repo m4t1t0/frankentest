@@ -19,5 +19,7 @@ interface ItemProjectionPersister
         Quantity $quantity,
         Money $price,
         bool $active,
+        ?string $dateAdd,
+        string $dateUpd,
     ): void;
 }

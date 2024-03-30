@@ -11,12 +11,14 @@ use EventSauce\EventSourcing\EventSourcedAggregateRootRepository;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use EventSauce\EventSourcing\MessageRepository;
 use App\Item\Core\Command\Add\AddItemProjection;
+use Psr\Clock\ClockInterface;
 
 readonly class AggregateRepositoryFactory
 {
     public function __construct(
         private MessageRepository $messageRepository,
         private ItemProjectionPersister $projection,
+        private ClockInterface $clock,
     ) {
     }
 
@@ -26,8 +28,8 @@ readonly class AggregateRepositoryFactory
     public function instance(string $className): EventSourcedAggregateRootRepository
     {
         $messageDispatcher = new SynchronousMessageDispatcher(
-            new AddItemProjection($this->projection),
-            new ModifyItemProjection($this->projection),
+            new AddItemProjection($this->projection, $this->clock),
+            new ModifyItemProjection($this->projection, $this->clock),
         );
 
         return new EventSourcedAggregateRootRepository(

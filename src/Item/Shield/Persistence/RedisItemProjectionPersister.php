@@ -27,9 +27,17 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         Quantity $quantity,
         Money $price,
         bool $active,
+        ?string $dateAdd,
+        string $dateUpd
     ): void
     {
         $key = self::ALL_ITEMS_PREFIX . '_' . $id->toString();
+
+        $row = $this->redis->get($key);
+        if ($row) {
+            $decodedRow = json_decode($row, true);
+        }
+
         $this->redis->set($key, json_encode([
             'id' => $id->toString(),
             'name' => $name->toString(),
@@ -37,6 +45,8 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
             'quantity' => $quantity->toInt(),
             'price' => $price->toArray(),
             'active' => $active,
+            'date_add' => $dateAdd ?: ($decodedRow['date_add'] ?? null),
+            'date_upd' => $dateUpd,
         ]));
     }
 }
