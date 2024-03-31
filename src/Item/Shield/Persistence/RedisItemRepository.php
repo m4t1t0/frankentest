@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Item\Shield\Persistence;
 
 use App\Shared\Shield\Redis\RedisClientInterface;
+use App\Shared\Shield\Services\JsonWrapper;
 
 final class RedisItemRepository
 {
@@ -12,6 +13,7 @@ final class RedisItemRepository
 
     public function __construct(
         private readonly RedisClientInterface $redis,
+        private readonly JsonWrapper $jsonWrapper,
     ) {
     }
     public function getById(string $id): ?array
@@ -22,6 +24,6 @@ final class RedisItemRepository
             return null;
         }
 
-        return json_decode($row, true);
+        return $this->jsonWrapper->decode($row);
     }
 }

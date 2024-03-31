@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Shield\Services\Clock;
+namespace App\Shared\Shield\Services;
 
-use Psr\Clock\ClockInterface;
 use DateTimeImmutable;
+use Psr\Clock\ClockInterface;
 
 final class Clock implements ClockInterface
 {

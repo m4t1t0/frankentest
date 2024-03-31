@@ -6,6 +6,7 @@ namespace App\Item\Shield\Ui;
 
 use App\Item\Core\Command\Add\AddItemCommand;
 use App\Shared\Core\Bus\CommandBusInterface;
+use App\Shared\Core\Services\JsonWrapperInterface;
 use Assert\Assert;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,13 +22,14 @@ final readonly class AddItemPort
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private JsonWrapperInterface $jsonWrapper,
     ) {
     }
 
     public function __invoke(
         Request $request,
     ): Response {
-        $payload = json_decode($request->getContent());
+        $payload = $this->jsonWrapper->decode($request->getContent());
 
         if (! $payload) {
             //TODO: Change this for a custom exception
@@ -36,27 +38,27 @@ final readonly class AddItemPort
 
         Assert::lazy()->tryAll()
             ->that($payload)
-            ->propertyExists(
+            ->keyExists(
                 'id',
                 'Request does not contain id property',
                 'itemId.notFound'
             )
-            ->propertyExists(
+            ->keyExists(
                 'name',
                 'Request does not contains name property',
                 'itemName.notFound'
             )
-            ->propertyExists(
+            ->keyExists(
                 'description',
                 'Request does not contains description property',
                 'itemDescription.notFound'
             )
-            ->propertyExists(
+            ->keyExists(
                 'quantity',
                 'Request does not contains quantity property',
                 'itemQuantity.notFound'
             )
-            ->propertyExists(
+            ->keyExists(
                 'price',
                 'Request does not contains price property',
                 'itemPrice.notFound'
@@ -65,11 +67,11 @@ final readonly class AddItemPort
 
         $this->commandBus->handle(
             new AddItemCommand(
-                id: $payload->id,
-                name: $payload->name,
-                description: $payload->description,
-                quantity: $payload->quantity,
-                price: $payload->price
+                id: $payload['id'],
+                name: $payload['name'],
+                description: $payload['description'],
+                quantity: $payload['quantity'],
+                price: $payload['price']
             )
         );
 

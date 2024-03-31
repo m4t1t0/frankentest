@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Shield\EventSourcing;
 
+use App\Shared\Core\Services\JsonWrapperInterface;
 use App\Shared\Shield\Redis\RedisClientInterface;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
@@ -24,12 +25,15 @@ class RedisMessageRepository implements MessageRepository
 
     private RedisClientInterface $redis;
     private MessageSerializer|ConstructingMessageSerializer $serializer;
+    private JsonWrapperInterface $jsonWrapper;
 
     public function __construct(
         RedisClientInterface $redis,
-        MessageSerializer $serializer = null
+        JsonWrapperInterface $jsonWrapper,
+        MessageSerializer $serializer = null,
     ) {
         $this->redis = $redis;
+        $this->jsonWrapper = $jsonWrapper;
         $this->serializer = $serializer ?: new ConstructingMessageSerializer();
     }
 
@@ -41,7 +45,7 @@ class RedisMessageRepository implements MessageRepository
 
             $this->redis->rpush(
                 key: static::EVENTS_PREFIX . '_' . $aggregateRootId->toString(),
-                value: json_encode($payload),
+                value: $this->jsonWrapper->encode($payload),
             );
         }
     }
@@ -72,7 +76,7 @@ class RedisMessageRepository implements MessageRepository
         $allPayloads = $this->redis->lrange($key);
         $payloads = [];
         foreach ($allPayloads as $payload) {
-            $decodedPayload = json_decode($payload, true);
+            $decodedPayload = $this->jsonWrapper->decode($payload);
             $version = (int)$decodedPayload['version'];
 
             if ($version <= $aggregateRootVersion) {
@@ -101,8 +105,8 @@ class RedisMessageRepository implements MessageRepository
         try {
             for ($i = $cursor->offset(); $i < $cursor->limit(); $i++) {
                 $numberOfMessages++;
-                $payload = $this->redis->lpop($keys[$i]);
-                yield $this->serializer->unserializePayload(json_decode($payload, true));
+                $payload = $this->redis->lrange($keys[$i])[$i];
+                yield $this->serializer->unserializePayload($this->jsonWrapper->decode($payload));
             }
         } catch (Throwable $exception) {
             throw UnableToRetrieveMessages::dueTo($exception->getMessage(), $exception);
@@ -117,7 +121,7 @@ class RedisMessageRepository implements MessageRepository
     private function yieldMessagesFromPayloads(iterable $payloads): Generator
     {
         foreach ($payloads as $payload) {
-            yield $message = $this->serializer->unserializePayload(json_decode($payload, true));
+            yield $message = $this->serializer->unserializePayload($this->jsonWrapper->decode($payload));
         }
 
         return isset($message)
