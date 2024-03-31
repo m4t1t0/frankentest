@@ -104,9 +104,11 @@ class RedisMessageRepository implements MessageRepository
         $keys = $this->redis->keys(static::EVENTS_PREFIX . '*');
         try {
             for ($i = $cursor->offset(); $i < $cursor->limit(); $i++) {
-                $numberOfMessages++;
-                $payload = $this->redis->lrange($keys[$i])[$i];
-                yield $this->serializer->unserializePayload($this->jsonWrapper->decode($payload));
+                $payloads = $this->redis->lrange($keys[$i]);
+                foreach($payloads as $payload) {
+                    $numberOfMessages++;
+                    yield $this->serializer->unserializePayload($this->jsonWrapper->decode($payload));
+                }
             }
         } catch (Throwable $exception) {
             throw UnableToRetrieveMessages::dueTo($exception->getMessage(), $exception);
