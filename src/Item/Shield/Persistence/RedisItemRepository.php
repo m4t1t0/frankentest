@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Item\Shield\Persistence;
 
+use App\Item\Core\ItemRepository;
 use App\Shared\Shield\Redis\RedisClientInterface;
 use App\Shared\Shield\Services\JsonWrapper;
 
-final class RedisItemRepository
+final class RedisItemRepository implements ItemRepository
 {
     private const ALL_ITEMS_PREFIX = 'all_items';
 

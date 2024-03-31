@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Item\Core\Query\Detail;
 
-use App\Item\Shield\Persistence\RedisItemRepository; //No usar la impl. concreta, pasar un interface
+use App\Item\Core\ItemRepository;
 use App\Shared\Core\Query\QueryHandlerInterface;
 
 readonly final class DetailItemQueryHandler implements QueryHandlerInterface
 {
     public function __construct(
-        private RedisItemRepository $repository,
+        private ItemRepository $repository,
     ) {
     }
 
