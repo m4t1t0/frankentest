@@ -53,3 +53,24 @@ composer-update: ## Update Composer dependencies
 .PHONY: composer-validate
 composer-validate: ## Validate composer.json and composer.lock
 	docker compose exec -e "COMPOSER_MEMORY_LIMIT=-1" $(CONTAINER_APP_NAME) composer validate --no-check-lock --strict composer.json
+
+##@ Test
+
+TEST_FILTER :=
+
+.PHONY: codecept-build
+codecept-build: ## Codeception build command
+	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept build
+
+.PHONY: test
+test: ## Execute all tests
+	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept run
+
+.PHONY: unit-test
+unit-test: ## Execute unit tests
+	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept run Unit
+
+.PHONY: func-test
+func-test: ## Execute functional tests
+	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept run func $(TEST_FILTER)
+
