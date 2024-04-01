@@ -13,7 +13,12 @@ final readonly class Quantity
     ) {
         Assert::lazy()->tryAll()
             ->that($value)
-            ->integer('Value must be an integer ', 'itemQuantity.invalidType')
+            ->integer('Value must be an integer', 'itemQuantity.invalidType')
+            ->greaterThan(
+                0,
+                'Value must be equal or greater than 0',
+                'itemQuantity.notNegative'
+            )
             ->verifyNow();
     }
 
