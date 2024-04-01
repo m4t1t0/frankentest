@@ -15,7 +15,7 @@ use App\Shared\Shield\Redis\RedisClientInterface;
 
 final class RedisItemProjectionPersister implements ItemProjectionPersister
 {
-    private const ALL_ITEMS_PREFIX = 'all_items';
+    private const string ALL_ITEMS_PREFIX = 'all_items';
 
     public function __construct(
         private readonly RedisClientInterface $redis,

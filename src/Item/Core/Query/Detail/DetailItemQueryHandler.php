@@ -16,11 +16,13 @@ readonly final class DetailItemQueryHandler implements QueryHandlerInterface
 
     public function handle(DetailItemQuery $query): ItemDetailReadModel|ItemDetailReadModelNotFound
     {
-        $row = $this->repository->getById($query->id); //Devolver una estructura mejor que el array
+        $collection = $this->repository->getById($query->id);
 
-        if (! $row) {
+        if (! $collection) {
             return new ItemDetailReadModelNotFound();
         }
+
+        $row = $collection->current();
 
         return new ItemDetailReadModel(
             id: $row['id'],

@@ -13,6 +13,7 @@
         "ext-redis": "*",
         "beberlei/assert": "3.3.*",
         "eventsauce/eventsauce": "^3.4",
+        "doctrine/collections": "^2.1",
         "runtime/frankenphp-symfony": "dev-main",
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
