@@ -10,10 +10,16 @@ use Symfony\Component\Intl\Currencies;
 
 readonly class Money
 {
-    public function __construct(
+    private function __construct(
         private float $amount,
         private string $currency
     ) {
+    }
+
+    public static function fromData(float $amount, string $iso3): self
+    {
+        assert(Currencies::exists($iso3));
+        return new self ($amount, $iso3);
     }
 
     public function toString(): string
@@ -23,20 +29,16 @@ readonly class Money
         return $fmt->formatCurrency($this->amount, $this->currency);
     }
 
+    public function toArray(): array{
+        return [
+            'amount' => $this->amount,
+            'currency'=>$this->currency
+        ];
+    }
+
     public function amount(): float
     {
         return $this->amount;
-    }
-
-    public function rounded(): float
-    {
-        $fmt = new NumberFormatter(Locale::getDefault(), NumberFormatter::CURRENCY);
-        $result = $fmt->parseCurrency($fmt->formatCurrency($this->amount, $this->currency),$this->currency);
-        if ($result === false) {
-            throw new \InvalidArgumentException(sprintf('Cannot parse %s "%s"', $this->amount, $this->currency));
-        }
-
-        return $result;
     }
 
     public function currency(): string
@@ -44,16 +46,15 @@ readonly class Money
         return $this->currency;
     }
 
-    public static function fromData(float $amount, string $iso3): self
+    public function rounded(): self
     {
-        assert(Currencies::exists($iso3));
-        return new self ($amount, $iso3);
-    }
+        $currency = $this->currency;
+        $fmt = new NumberFormatter(Locale::getDefault(), NumberFormatter::CURRENCY);
+        $result = $fmt->parseCurrency($fmt->formatCurrency($this->amount, $currency),$currency);
+        if ($result === false) {
+            throw new \InvalidArgumentException(sprintf('Cannot parse %s "%s"', $this->amount, $currency));
+        }
 
-    public function toArray(): array{
-        return [
-            'amount' => $this->amount,
-            'currency'=>$this->currency
-        ];
+        return new self($result, $currency);
     }
 }
