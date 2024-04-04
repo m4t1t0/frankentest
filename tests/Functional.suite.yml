@@ -4,12 +4,14 @@
 # Emulate web requests and make application process them
 
 actor: FunctionalTester
+path: ./Functional
+suite_namespace: Tests\Functional
 modules:
     enabled:
         - Asserts
         - Symfony:
-              app_path: 'src'
-              environment: 'test'
-#        - Doctrine:
-#              depends: Symfony
-#              cleanup: true
+            app_path: src
+            environment: test
+        - REST:
+            depends: Symfony
+            part: Json

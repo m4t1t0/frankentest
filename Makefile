@@ -72,5 +72,5 @@ unit-test: ## Execute unit tests
 
 .PHONY: func-test
 func-test: ## Execute functional tests
-	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept run func $(TEST_FILTER)
+	docker compose exec $(CONTAINER_APP_NAME) php vendor/bin/codecept run Functional $(TEST_FILTER)
 
