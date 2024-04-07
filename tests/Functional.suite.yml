@@ -15,3 +15,9 @@ modules:
         - REST:
             depends: Symfony
             part: Json
+        - Tests\Support\Helper\DBHelper:
+              connections:
+                  writes:
+                      dsn: '%REDIS_WRITE_REPOSITORY%'
+                  reads:
+                      dsn: '%REDIS_READ_REPOSITORY%'
