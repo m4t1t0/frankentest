@@ -1,4 +1,4 @@
-# Symfony Docker
+# Frankentest
 
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
 with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
@@ -7,11 +7,22 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 
 ## Getting Started
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull always -d --wait` to start the project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+1. make build
+2. make start
+3. Go to https://localhost to see the homepage. To try the API go to [POST] https://localhost/api/item and send a JSON like this one:
+   ```
+   {
+	"id": "6bf4d9f2-0cd1-4b0e-b92c-ba7a05811861",
+	"name": "Prueba 1",
+	"description": "Primera prueba",
+	"quantity": 5,
+	"price": 10.95
+   }
+   ```   
+5. make composer-update ## Update composer packages
+6. make codecept-build ## Auto-generate codeception files
+7. make unit-test ## Run unit tests
+8. make func-test ## Run functional tests
 
 ## Features
 
