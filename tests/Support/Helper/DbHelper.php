@@ -9,6 +9,8 @@ use Codeception\Lib\ModuleContainer;
 use \Codeception\Module;
 use \Codeception\TestInterface;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Tests\Support\Helper\Domain\Item\Item;
+use Tests\Support\Helper\Domain\Item\ItemRepository;
 
 class DbHelper extends Module
 {
@@ -55,5 +57,11 @@ class DbHelper extends Module
     public function seeInReadDatabase(string $prefix, string $aggregateRootId): bool
     {
         return (bool)$this->redisRead->exists($prefix . '_' . $aggregateRootId);
+    }
+
+    public function haveItem(Item $item): void
+    {
+        $itemRepository = new ItemRepository($this->redisRead);
+        $itemRepository->insertItem($item);
     }
 }
