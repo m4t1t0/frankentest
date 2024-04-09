@@ -11,6 +11,8 @@ use \Codeception\TestInterface;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Tests\Support\Helper\Domain\Item\Item;
 use Tests\Support\Helper\Domain\Item\ItemRepository;
+use Tests\Support\Helper\Domain\Event\Event;
+use Tests\Support\Helper\Domain\Event\EventRepository;
 
 class DbHelper extends Module
 {
@@ -63,5 +65,11 @@ class DbHelper extends Module
     {
         $itemRepository = new ItemRepository($this->redisRead);
         $itemRepository->insertItem($item);
+    }
+
+    public function haveEvent(Event $event): void
+    {
+        $eventRepository = new EventRepository($this->redisWrite);
+        $eventRepository->insertEvent($event);
     }
 }

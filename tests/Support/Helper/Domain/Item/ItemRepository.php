@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Support\Helper\Domain\Item;
 
-use DateTimeInterface;
 use Redis;
 
 final class ItemRepository
