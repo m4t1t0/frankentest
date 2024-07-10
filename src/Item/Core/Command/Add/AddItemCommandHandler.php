@@ -23,6 +23,7 @@ final readonly class AddItemCommandHandler implements CommandHandlerInterface
             id: $command->id,
             name: $command->name,
             description: $command->description,
+            location: $command->location,
             quantity: $command->quantity,
             price: $command->price,
         );

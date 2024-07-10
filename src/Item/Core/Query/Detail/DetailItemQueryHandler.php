@@ -28,6 +28,7 @@ readonly final class DetailItemQueryHandler implements QueryHandlerInterface
             id: $row['id'],
             name: $row['name'],
             description: $row['description'],
+            location: $row['location'],
             quantity: $row['quantity'],
             price: $row['price'],
             active: $row['active'],

@@ -14,6 +14,7 @@ final class Item
     public Uuid $uuid;
     public string $name;
     public string $description;
+    public string $location;
     public int $quantity;
     public float $price;
     public bool $active;
@@ -24,6 +25,7 @@ final class Item
         string $uuid,
         string $name,
         string $description,
+        string $location,
         int $quantity,
         float $price,
         bool $active,
@@ -33,6 +35,7 @@ final class Item
         $this->uuid = Uuid::fromString($uuid);
         $this->name = $name;
         $this->description = $description;
+        $this->location = $location;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->active = $active;

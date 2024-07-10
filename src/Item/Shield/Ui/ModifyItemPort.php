@@ -54,6 +54,11 @@ final readonly class ModifyItemPort
                 'itemDescription.notFound'
             )
             ->keyExists(
+                'location',
+                'Request does not contains location property',
+                'itemLocation.notFound'
+            )
+            ->keyExists(
                 'quantity',
                 'Request does not contains quantity property',
                 'itemQuantity.notFound'
@@ -70,6 +75,7 @@ final readonly class ModifyItemPort
                 id: $payload['id'],
                 name: $payload['name'],
                 description: $payload['description'],
+                location: $payload['location'],
                 quantity: $payload['quantity'],
                 price: $payload['price']
             )

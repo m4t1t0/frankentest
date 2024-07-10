@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Item\Shield\Cli;
 
+use App\Item\Core\Aggregate\Item\ValueObjects\Location;
 use App\Item\Core\Command\Add\AddItemCommand;
 use App\Shared\Core\Bus\CommandBusInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -41,6 +42,7 @@ class LoadItemsCommand extends Command
                     id: $faker->uuid(),
                     name: $faker->text(20),
                     description: $faker->text(50),
+                    location: $faker->randomElement(Location::AVAILABLE_LOCATIONS),
                     quantity: $faker->randomDigitNotZero(),
                     price: $faker->randomFloat(2, 10, 100),
                 )

@@ -11,6 +11,7 @@ final readonly class ItemDetailViewModel
     public string $id;
     public string $name;
     public string $description;
+    public string $location;
     public int $quantity;
     public array $price; //Cambiar esto por un DTO
     public bool $active;
@@ -21,6 +22,7 @@ final readonly class ItemDetailViewModel
         $this->id = $item->id->toString();
         $this->name = $item->name->toString();
         $this->description = $item->description->toString();
+        $this->location = $item->location->toString();
         $this->quantity = $item->quantity->toInt();
         $this->price = $item->price->toArray();
         $this->active = $item->active;

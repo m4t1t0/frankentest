@@ -17,6 +17,7 @@ final class AddItemCest
             'id' => $itemId,
             'name' => 'Prueba 1',
             'description' => 'Primera prueba',
+            'location' => 'Main warehouse',
             'quantity' => 5,
             'price' => 10.95
         ];

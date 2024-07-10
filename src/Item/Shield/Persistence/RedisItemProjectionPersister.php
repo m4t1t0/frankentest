@@ -6,6 +6,7 @@ namespace App\Item\Shield\Persistence;
 
 use App\Item\Core\Aggregate\Item\ItemId;
 use App\Item\Core\Aggregate\Item\ValueObjects\Description;
+use App\Item\Core\Aggregate\Item\ValueObjects\Location;
 use App\Item\Core\Aggregate\Item\ValueObjects\Name;
 use App\Item\Core\Aggregate\Item\ValueObjects\Quantity;
 use App\Item\Core\ItemProjectionPersister;
@@ -26,6 +27,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         ItemId $id,
         Name $name,
         Description $description,
+        Location $location,
         Quantity $quantity,
         Money $price,
         bool $active,
@@ -44,6 +46,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
             'id' => $id->toString(),
             'name' => $name->toString(),
             'description' => $description->toString(),
+            'location' => $location->toString(),
             'quantity' => $quantity->toInt(),
             'price' => $price->toArray(),
             'active' => $active,

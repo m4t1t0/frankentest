@@ -6,6 +6,7 @@ namespace App\Item\Core\Aggregate\Item;
 
 use App\Item\Core\Aggregate\Item\Events\V1\ItemWasAdded;
 use App\Item\Core\Aggregate\Item\Events\V1\ItemWasModified;
+use App\Item\Core\Aggregate\Item\ValueObjects\Location;
 use App\Item\Core\Aggregate\Item\ValueObjects\Name;
 use App\Item\Core\Aggregate\Item\ValueObjects\Description;
 use App\Item\Core\Aggregate\Item\ValueObjects\Quantity;
@@ -21,6 +22,7 @@ class Item implements AggregateRoot
 
     protected Name $name;
     protected Description $description;
+    protected Location $location;
     protected Quantity $quantity;
     protected Money $price;
     protected bool $active;
@@ -29,6 +31,7 @@ class Item implements AggregateRoot
         string $id,
         string $name,
         string $description,
+        string $location,
         int $quantity,
         float $price,
     ): self {
@@ -38,6 +41,7 @@ class Item implements AggregateRoot
                 id: $id,
                 name: $name,
                 description: $description,
+                location: $location,
                 quantity: $quantity,
                 price: $price,
             )
@@ -50,6 +54,7 @@ class Item implements AggregateRoot
     {
         $this->name = Name::fromString($event->name);
         $this->description = Description::fromString($event->description);
+        $this->location = Location::fromString($event->location);
         $this->quantity = Quantity::fromInt($event->quantity);
         $this->price = Money::fromData($event->price, static::DEFAULT_CURRENCY);
         $this->active = $event->active;
@@ -58,6 +63,7 @@ class Item implements AggregateRoot
     public function modify(
         string $name,
         string $description,
+        string $location,
         int $quantity,
         float $price,
     ): void {
@@ -66,6 +72,7 @@ class Item implements AggregateRoot
                 id: (string)$this->aggregateRootId(),
                 name: $name,
                 description: $description,
+                location: $location,
                 quantity: $quantity,
                 price: $price,
                 active: $this->active,
@@ -77,6 +84,7 @@ class Item implements AggregateRoot
     {
         $this->name = Name::fromString($event->name);
         $this->description = Description::fromString($event->description);
+        $this->location = Location::fromString($event->location);
         $this->quantity = Quantity::fromInt($event->quantity);
         $this->price = Money::fromData($event->price, static::DEFAULT_CURRENCY);
     }

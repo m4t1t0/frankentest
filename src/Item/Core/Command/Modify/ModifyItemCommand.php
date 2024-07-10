@@ -15,6 +15,7 @@ final readonly class ModifyItemCommand implements CommandInterface
         public string $id,
         public string $name,
         public string $description,
+        public string $location,
         public int $quantity,
         public float $price,
     ) {

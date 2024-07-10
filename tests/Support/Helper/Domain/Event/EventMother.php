@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Tests\Support\Helper\Domain\Event;
 
 use Symfony\Component\Uid\Uuid;
-use DateTime;
-use Tests\Support\Helper\Domain\Aggregate\Aggregate;
 
 final class EventMother
 {
@@ -30,6 +28,7 @@ final class EventMother
             'id' => $aggregateId,
             'name' => 'Prueba 1',
             'description' => 'Primera prueba',
+            'location' => 'Main warehouse',
             'quantity' => 5,
             'price' => 10.95,
             'active' => true,

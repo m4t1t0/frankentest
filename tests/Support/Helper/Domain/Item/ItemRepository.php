@@ -22,6 +22,7 @@ final class ItemRepository
                 'id' => $item->uuid->toRfc4122(),
                 'name' => $item->name,
                 'description' => $item->description,
+                'location' => $item->location,
                 'price' => [
                     'amount' => $item->price,
                     'currency' => Item::DEFAULT_CURRENCY,
