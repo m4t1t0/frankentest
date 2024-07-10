@@ -11,13 +11,12 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Faker\Factory;
 
 #[AsCommand(name: 'app:load-items')]
 class LoadItemsCommand extends Command
 {
-    private const int MAX_NUMBER_OF_ITEMS = 1000;
-
     public function __construct(
         private readonly CommandBusInterface $commandBus,
     ) {
@@ -28,6 +27,7 @@ class LoadItemsCommand extends Command
     {
         $this
             ->setDescription('Load a lot of fake items.')
+            ->addArgument('number', InputArgument::REQUIRED, 'Number of items to be created.')
             ->setHelp('This command allows you load a lot of fake items.')
         ;
     }
@@ -36,7 +36,7 @@ class LoadItemsCommand extends Command
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < self::MAX_NUMBER_OF_ITEMS; $i++) {
+        for ($i = 0; $i < $input->getArgument('number'); $i++) {
             $this->commandBus->handle(
                 new AddItemCommand(
                     id: $faker->uuid(),
