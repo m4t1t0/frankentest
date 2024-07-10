@@ -28,12 +28,13 @@ class DbHelper extends Module
 
     public function _before(TestInterface $test): void
     {
-        $this->flushAll();
+        $this->flushAllDbs();
     }
 
-    public function flushAll(): void
+    public function flushAllDbs(): void
     {
-        $this->redisWrite->flushAll();
+        $this->redisWrite->flushDB();
+        $this->redisRead->flushDB();
     }
 
     public function seeEventExists(string $aggregateRootId, string $type): bool
