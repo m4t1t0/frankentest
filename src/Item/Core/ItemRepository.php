@@ -9,4 +9,6 @@ use Doctrine\Common\Collections\Collection;
 interface ItemRepository
 {
     public function getById(string $id): ?Collection;
+
+    public function findByCriteria(): Collection;
 }

@@ -31,4 +31,20 @@ final class RedisItemRepository implements ItemRepository
 
         return $collection;
     }
+
+    public function findByCriteria(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        $keys = $this->redis->keys(self::ALL_ITEMS_PREFIX . '_*');
+
+        foreach ($keys as $key) {
+            $collection->add(
+                $this->jsonWrapper->decode(
+                    $this->redis->get($key)
+                )
+            );
+        }
+
+        return $collection;
+    }
 }

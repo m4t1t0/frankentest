@@ -42,6 +42,6 @@ class RedisClient implements RedisClientInterface
 
     public function keys(string $pattern): array
     {
-        return $this->keys($pattern);
+        return $this->redis->keys($pattern);
     }
 }
