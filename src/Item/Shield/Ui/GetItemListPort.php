@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Item\Shield\Ui;
 
 use App\Item\Core\Query\List\ListItemsQuery;
+use App\Item\Core\Query\List\ItemListReadModel;
 use App\Item\Shield\Ui\ViewModels\ItemListViewModel;
 use App\Shared\Core\Bus\QueryBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,11 +32,10 @@ final class GetItemListPort
             new ListItemsQuery()
         )->getResult();
 
-        $result = [];
-        foreach ($items as $item) {
-            $result[] = new ItemListViewModel($item);
-        }
+        $response = $items->map(
+            fn(ItemListReadModel $item): ItemListViewModel => new ItemListViewModel($item)
+        );
 
-        return new JsonResponse($result);
+        return new JsonResponse($response->getValues());
     }
 }

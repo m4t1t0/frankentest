@@ -6,7 +6,6 @@ namespace App\Item\Core\Query\List;
 
 use App\Item\Core\ItemRepository;
 use App\Shared\Core\Query\QueryHandlerInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 readonly final class ListItemsQueryHandler implements QueryHandlerInterface
@@ -18,11 +17,10 @@ readonly final class ListItemsQueryHandler implements QueryHandlerInterface
 
     public function handle(ListItemsQuery $query): Collection
     {
-        $result = new ArrayCollection();
         $items = $this->repository->findByCriteria();
 
-        foreach ($items as $item) {
-            $result->add(new ItemListReadModel(
+        return $items->map(
+            fn(array $item): ItemListReadModel => new ItemListReadModel(
                 id: $item['id'],
                 name: $item['name'],
                 description: $item['description'],
@@ -30,9 +28,7 @@ readonly final class ListItemsQueryHandler implements QueryHandlerInterface
                 quantity: $item['quantity'],
                 price: $item['price'],
                 active: $item['active'],
-            ));
-        }
-
-        return $result;
+            )
+        );
     }
 }
