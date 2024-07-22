@@ -44,4 +44,19 @@ class RedisClient implements RedisClientInterface
     {
         return $this->redis->keys($pattern);
     }
+
+    public function rawCommand(string $command, ...$arguments): mixed
+    {
+        return $this->redis->rawCommand($command, ...$arguments);
+    }
+
+    public function jsonSet(string $key, string $payload): Redis|bool
+    {
+        return $this->rawCommand('JSON.SET', $key, '$', $payload);
+    }
+
+    public function jsonGet(string $key): mixed
+    {
+        return $this->rawCommand('JSON.GET', $key, '$');
+    }
 }

@@ -21,13 +21,20 @@ final class RedisItemRepository implements ItemRepository
     public function getById(string $id): ?ArrayCollection
     {
         $key = self::ALL_ITEMS_PREFIX . '_' . $id;
-        $row = $this->redis->get($key);
-        if (!$row) {
+        $result = $this->redis->jsonGet($key);
+        if (!$result) {
             return null;
         }
 
+        $result = $this->jsonWrapper->decode($result);
+        if (!$result[0]) {
+            return null;
+        }
+
+        $row = $result[0];
+
         $collection = new ArrayCollection();
-        $collection->add($this->jsonWrapper->decode($row));
+        $collection->add($row);
 
         return $collection;
     }
@@ -38,11 +45,13 @@ final class RedisItemRepository implements ItemRepository
         $keys = $this->redis->keys(self::ALL_ITEMS_PREFIX . '_*');
 
         foreach ($keys as $key) {
-            $collection->add(
-                $this->jsonWrapper->decode(
-                    $this->redis->get($key)
-                )
-            );
+            $result = $this->redis->jsonGet($key);
+            if ($result) {
+                $row = $this->jsonWrapper->decode($result);
+                if ($row && $row[0]) {
+                    $collection->add($row[0]);
+                }
+            }
         }
 
         return $collection;

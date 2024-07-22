@@ -14,4 +14,7 @@ interface RedisClientInterface
     public function rpush(string $key, string $value): int;
     public function lrange(string $key, int $start = 0, int $end = -1): array;
     public function keys(string $pattern): array;
+    public function rawCommand(string $command, mixed ...$arguments): mixed;
+    public function jsonSet(string $key, string $payload): Redis|bool;
+    public function jsonGet(string $key): mixed;
 }

@@ -42,7 +42,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
             $decodedRow = $this->jsonWrapper->decode($row);
         }
 
-        $this->redis->set($key, $this->jsonWrapper->encode([
+        $this->redis->jsonSet($key, $this->jsonWrapper->encode([
             'id' => $id->toString(),
             'name' => $name->toString(),
             'description' => $description->toString(),
