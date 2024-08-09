@@ -1,0 +1,236 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Events\\\\V1\\\\ItemWasAdded\\:\\:fromPayload\\(\\) has parameter \\$payload with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Events/V1/ItemWasAdded.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Events\\\\V1\\\\ItemWasAdded\\:\\:toPayload\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Events/V1/ItemWasAdded.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Events\\\\V1\\\\ItemWasModified\\:\\:fromPayload\\(\\) has parameter \\$payload with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Events/V1/ItemWasModified.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Events\\\\V1\\\\ItemWasModified\\:\\:toPayload\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Events/V1/ItemWasModified.php
+
+		-
+			message: "#^Cannot cast EventSauce\\\\EventSourcing\\\\AggregateRootId to string\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Item.php
+
+		-
+			message: "#^Class App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Item implements generic interface EventSauce\\\\EventSourcing\\\\AggregateRoot but does not specify its types\\: AggregateRootIdType$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Item.php
+
+		-
+			message: "#^Class App\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\Item uses generic trait EventSauce\\\\EventSourcing\\\\AggregateRootBehaviour but does not specify its types\\: AggregateRootIdType$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Item.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Item/Core/Aggregate/Item/Item.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\ItemRepository\\:\\:findByCriteria\\(\\) return type with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection does not specify its types\\: TKey, T$#"
+			count: 1
+			path: src/Item/Core/ItemRepository.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\ItemRepository\\:\\:getById\\(\\) return type with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection does not specify its types\\: TKey, T$#"
+			count: 1
+			path: src/Item/Core/ItemRepository.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Query\\\\Detail\\\\ItemDetailReadModel\\:\\:__construct\\(\\) has parameter \\$price with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Query/Detail/ItemDetailReadModel.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Query\\\\List\\\\ItemListReadModel\\:\\:__construct\\(\\) has parameter \\$price with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Core/Query/List/ItemListReadModel.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Core\\\\Query\\\\List\\\\ListItemsQueryHandler\\:\\:handle\\(\\) return type with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection does not specify its types\\: TKey, T$#"
+			count: 1
+			path: src/Item/Core/Query/List/ListItemsQueryHandler.php
+
+		-
+			message: "#^Binary operation \"\\+\" between non\\-falsy\\-string and 1 results in an error\\.$#"
+			count: 1
+			path: src/Item/Shield/Cli/LoadItemsCommand.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Shield\\\\Persistence\\\\RedisItemRepository\\:\\:findByCriteria\\(\\) return type with generic class Doctrine\\\\Common\\\\Collections\\\\ArrayCollection does not specify its types\\: TKey, T$#"
+			count: 1
+			path: src/Item/Shield/Persistence/RedisItemRepository.php
+
+		-
+			message: "#^Method App\\\\Item\\\\Shield\\\\Persistence\\\\RedisItemRepository\\:\\:getById\\(\\) return type with generic class Doctrine\\\\Common\\\\Collections\\\\ArrayCollection does not specify its types\\: TKey, T$#"
+			count: 1
+			path: src/Item/Shield/Persistence/RedisItemRepository.php
+
+		-
+			message: "#^Property App\\\\Item\\\\Shield\\\\Ui\\\\ViewModels\\\\ItemDetailViewModel\\:\\:\\$price type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Shield/Ui/ViewModels/ItemDetailViewModel.php
+
+		-
+			message: "#^Property App\\\\Item\\\\Shield\\\\Ui\\\\ViewModels\\\\ItemListViewModel\\:\\:\\$price type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Item/Shield/Ui/ViewModels/ItemListViewModel.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Core\\\\EventSourcing\\\\AggregateRepositoryFactory\\:\\:instance\\(\\) has parameter \\$className with generic interface EventSauce\\\\EventSourcing\\\\AggregateRoot but does not specify its types\\: AggregateRootIdType$#"
+			count: 1
+			path: src/Shared/Core/EventSourcing/AggregateRepositoryFactory.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Core\\\\EventSourcing\\\\AggregateRepositoryFactory\\:\\:instance\\(\\) return type with generic class EventSauce\\\\EventSourcing\\\\EventSourcedAggregateRootRepository does not specify its types\\: T$#"
+			count: 1
+			path: src/Shared/Core/EventSourcing/AggregateRepositoryFactory.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Core\\\\Services\\\\JsonWrapperInterface\\:\\:decode\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Core/Services/JsonWrapperInterface.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Core\\\\Services\\\\JsonWrapperInterface\\:\\:encode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Core/Services/JsonWrapperInterface.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Core\\\\ValueObjects\\\\Money\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Core/ValueObjects/Money.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\EventSourcing\\\\RedisMessageRepository\\:\\:retrieveAll\\(\\) should return Generator\\<mixed, EventSauce\\\\EventSourcing\\\\Message, mixed, mixed\\> but returns 0\\.$#"
+			count: 1
+			path: src/Shared/Shield/EventSourcing/RedisMessageRepository.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\EventSourcing\\\\RedisMessageRepository\\:\\:retrieveAllAfterVersion\\(\\) should return Generator\\<mixed, EventSauce\\\\EventSourcing\\\\Message, mixed, mixed\\> but returns 0\\.$#"
+			count: 1
+			path: src/Shared/Shield/EventSourcing/RedisMessageRepository.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\EventSourcing\\\\RedisMessageRepository\\:\\:yieldMessagesFromPayloads\\(\\) has parameter \\$payloads with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: src/Shared/Shield/EventSourcing/RedisMessageRepository.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Redis\\\\RedisClient\\:\\:keys\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Redis/RedisClient.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Redis\\\\RedisClient\\:\\:lrange\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Redis/RedisClient.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Redis\\\\RedisClientInterface\\:\\:keys\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Redis/RedisClientInterface.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Redis\\\\RedisClientInterface\\:\\:lrange\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Redis/RedisClientInterface.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Services\\\\JsonWrapper\\:\\:decode\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Services/JsonWrapper.php
+
+		-
+			message: "#^Method App\\\\Shared\\\\Shield\\\\Services\\\\JsonWrapper\\:\\:encode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Shared/Shield/Services/JsonWrapper.php
+
+		-
+			message: "#^Method Tests\\\\Support\\\\Helper\\\\DbHelper\\:\\:__construct\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/DbHelper.php
+
+		-
+			message: "#^Method Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\Event\\:\\:__construct\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/Event.php
+
+		-
+			message: "#^Method Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\Event\\:\\:__construct\\(\\) has parameter \\$payload with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/Event.php
+
+		-
+			message: "#^Property Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\Event\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/Event.php
+
+		-
+			message: "#^Property Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\Event\\:\\:\\$payload type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/Event.php
+
+		-
+			message: "#^Method Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\EventMother\\:\\:createEvent\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/EventMother.php
+
+		-
+			message: "#^Method Tests\\\\Support\\\\Helper\\\\Domain\\\\Event\\\\EventMother\\:\\:createEvent\\(\\) has parameter \\$payload with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Helper/Domain/Event/EventMother.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\ValueObjects\\\\DescriptionTest\\:\\:providerDescription\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Item/Core/Aggregate/Item/ValueObjects/DescriptionTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\ValueObjects\\\\LocationTest\\:\\:providerLocation\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Item/Core/Aggregate/Item/ValueObjects/LocationTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\ValueObjects\\\\NameTest\\:\\:providerName\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Item/Core/Aggregate/Item/ValueObjects/NameTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Item\\\\Core\\\\Aggregate\\\\Item\\\\ValueObjects\\\\QuantityTest\\:\\:providerQuantity\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Item/Core/Aggregate/Item/ValueObjects/QuantityTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Shared\\\\Core\\\\ValueObjects\\\\MoneyTest\\:\\:providerEuro\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Shared/Core/ValueObjects/MoneyTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Shared\\\\Core\\\\ValueObjects\\\\MoneyTest\\:\\:providerWrongCurrency\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: tests/Unit/Shared/Core/ValueObjects/MoneyTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Shared\\\\Core\\\\ValueObjects\\\\MoneyTest\\:\\:test_from_data\\(\\) has parameter \\$moneyProvided with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Shared/Core/ValueObjects/MoneyTest.php
+
+		-
+			message: "#^Method Tests\\\\Unit\\\\Shared\\\\Core\\\\ValueObjects\\\\MoneyTest\\:\\:test_wrong_currency_throws_exception\\(\\) has parameter \\$moneyProvided with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Shared/Core/ValueObjects/MoneyTest.php

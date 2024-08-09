@@ -32,12 +32,12 @@ class RedisClient implements RedisClientInterface
 
     public function rpush(string $key, string $value): int
     {
-        return $this->redis->rpush($key, $value);
+        return $this->redis->rPush($key, $value);
     }
 
     public function lrange(string $key, int $start = 0, int $end = -1): array
     {
-        return $this->redis->lrange($key, $start, $end);
+        return $this->redis->lRange($key, $start, $end);
     }
 
     public function keys(string $pattern): array
@@ -45,7 +45,7 @@ class RedisClient implements RedisClientInterface
         return $this->redis->keys($pattern);
     }
 
-    public function rawCommand(string $command, ...$arguments): mixed
+    public function rawCommand(string $command, mixed ...$arguments): mixed
     {
         return $this->redis->rawCommand($command, ...$arguments);
     }

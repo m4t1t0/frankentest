@@ -33,6 +33,10 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+      # HTTP
+      - target: 11111
+        published: ${HTTP_PORT:-11111}
+        protocol: tcp
         
   redis:
     image: redis/redis-stack-server:latest

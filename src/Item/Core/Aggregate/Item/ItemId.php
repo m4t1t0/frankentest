@@ -5,7 +5,7 @@ namespace App\Item\Core\Aggregate\Item;
 use EventSauce\EventSourcing\AggregateRootId;
 use Symfony\Component\Uid\Uuid;
 
-readonly class ItemId implements AggregateRootId, \Stringable
+readonly final class ItemId implements AggregateRootId, \Stringable
 {
     private function __construct(private Uuid $id)
     {
@@ -18,7 +18,7 @@ readonly class ItemId implements AggregateRootId, \Stringable
 
     public static function fromString(string $aggregateRootId): static
     {
-        return new self(Uuid::fromString($aggregateRootId));
+        return new static(Uuid::fromString($aggregateRootId));
     }
 
     public function __toString(): string

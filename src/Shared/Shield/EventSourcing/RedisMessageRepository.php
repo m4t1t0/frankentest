@@ -44,7 +44,7 @@ class RedisMessageRepository implements MessageRepository
             $payload = $this->serializer->serializeMessage($message);
 
             $this->redis->rpush(
-                key: static::EVENTS_PREFIX . '_' . $aggregateRootId->toString(),
+                key: self::EVENTS_PREFIX . '_' . $aggregateRootId->toString(),
                 value: $this->jsonWrapper->encode($payload),
             );
         }
@@ -52,7 +52,7 @@ class RedisMessageRepository implements MessageRepository
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $key = static::EVENTS_PREFIX . '_' . $id->toString();
+        $key = self::EVENTS_PREFIX . '_' . $id->toString();
 
         if (! $this->redis->exists($key)) {
             return 0;
@@ -67,7 +67,7 @@ class RedisMessageRepository implements MessageRepository
     }
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
-        $key = static::EVENTS_PREFIX . '_' . $id->toString();
+        $key = self::EVENTS_PREFIX . '_' . $id->toString();
 
         if (! $this->redis->exists($key)) {
             return 0;
@@ -101,7 +101,7 @@ class RedisMessageRepository implements MessageRepository
 
         $numberOfMessages = 0;
 
-        $keys = $this->redis->keys(static::EVENTS_PREFIX . '*');
+        $keys = $this->redis->keys(self::EVENTS_PREFIX . '*');
         try {
             for ($i = $cursor->offset(); $i < $cursor->limit(); $i++) {
                 $payloads = $this->redis->lrange($keys[$i]);

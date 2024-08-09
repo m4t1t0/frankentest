@@ -1,0 +1,16 @@
+includes:
+    - phpstan-baseline.neon
+    - phpstan-ignore.neon
+parameters:
+    pro:
+        dnsServers!:
+            - '8.8.8.8'
+    level: 6
+    paths:
+        - src
+        - tests
+    strictRules:
+        allRules: false
+    editorUrl: 'phpstorm://open?file=%%relFile%%line=%%line%%'
+    editorUrlTitle: '%%file%%:%%line%%'
+    treatPhpDocTypesAsCertain: false

@@ -18,7 +18,7 @@ final class EventRepository
     public function insertEvent(Event $event): void
     {
         $key = self::EVENTS_PREFIX . '_' . $event->aggregateId->toRfc4122();
-        $this->redis->rpush($key, json_encode([
+        $this->redis->rPush($key, json_encode([
                 'headers' => $event->headers,
                 'payload' => $event->payload,
             ])

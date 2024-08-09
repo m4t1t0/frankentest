@@ -1,0 +1,5 @@
+parameters:
+    excludePaths:
+        analyse:
+            - tests/Support/_generated/FunctionalTesterActions.php
+            - tests/Support/_generated/UnitTesterActions.php

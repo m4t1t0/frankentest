@@ -45,7 +45,7 @@ class DbHelper extends Module
             return false;
         }
 
-        $events = $this->redisWrite->lrange($key, 0, -1);
+        $events = $this->redisWrite->lRange($key, 0, -1);
         foreach ($events as $event) {
             $decodedEvent = json_decode($event, true);
 

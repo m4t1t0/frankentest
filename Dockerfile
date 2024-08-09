@@ -63,6 +63,10 @@ RUN set -eux; \
 
 COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
+# PHPSTAN PRO
+ENV PHPSTAN_PRO_WEB_PORT=11111
+EXPOSE 11111
+
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
 # Prod FrankenPHP image

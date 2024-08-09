@@ -54,6 +54,20 @@ composer-update: ## Update Composer dependencies
 composer-validate: ## Validate composer.json and composer.lock
 	docker compose exec -e "COMPOSER_MEMORY_LIMIT=-1" $(CONTAINER_APP_NAME) composer validate --no-check-lock --strict composer.json
 
+##@ Code analysis
+
+.PHONY: phpstan
+phpstan: ## Run PHPStan and show errors
+	docker compose exec $(CONTAINER_APP_NAME) vendor/bin/phpstan analyse -c phpstan.dist.neon --memory-limit=-1
+
+.PHONY: phpstan-baseline
+phpstan-baseline: ## Generate PHPStan baseline
+	docker compose exec $(CONTAINER_APP_NAME) vendor/bin/phpstan analyse -c phpstan.dist.neon --generate-baseline --memory-limit=-1
+
+.PHONY: phpstan-pro
+phpstan-pro: ## Run PHPStan PRO and show errors
+	docker compose exec $(CONTAINER_APP_NAME) vendor/bin/phpstan --pro --memory-limit=-1
+
 ##@ Test
 
 TEST_FILTER :=
