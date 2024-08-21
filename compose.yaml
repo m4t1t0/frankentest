@@ -40,11 +40,13 @@ services:
         
   redis:
     image: redis/redis-stack-server:latest
+    command: redis-server /usr/local/etc/redis/redis.conf
     restart: unless-stopped
     ports:
       - '6379:6379'
     volumes:
       - ./redis:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
