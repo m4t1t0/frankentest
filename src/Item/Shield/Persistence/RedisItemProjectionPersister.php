@@ -35,7 +35,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         string $dateUpd
     ): void
     {
-        $key = self::ALL_ITEMS_PREFIX . '_' . $id->toString();
+        $key = self::ALL_ITEMS_PREFIX . ':' . $id->toString();
 
         $row = $this->redis->get($key);
         if ($row) {

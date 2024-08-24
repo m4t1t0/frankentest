@@ -17,7 +17,7 @@ final class ItemRepository
 
     public function insertItem(Item $item): void
     {
-        $key = self::ALL_ITEMS_PREFIX . '_' . $item->uuid->toRfc4122();
+        $key = self::ALL_ITEMS_PREFIX . ':' . $item->uuid->toRfc4122();
         $this->redis->rawCommand('JSON.SET', $key, '$', json_encode([
                 'id' => $item->uuid->toRfc4122(),
                 'name' => $item->name,

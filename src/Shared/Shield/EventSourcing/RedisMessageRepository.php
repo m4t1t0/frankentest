@@ -44,7 +44,7 @@ class RedisMessageRepository implements MessageRepository
             $payload = $this->serializer->serializeMessage($message);
 
             $this->redis->rpush(
-                key: self::EVENTS_PREFIX . '_' . $aggregateRootId->toString(),
+                key: self::EVENTS_PREFIX . ':' . $aggregateRootId->toString(),
                 value: $this->jsonWrapper->encode($payload),
             );
         }
@@ -52,7 +52,7 @@ class RedisMessageRepository implements MessageRepository
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $key = self::EVENTS_PREFIX . '_' . $id->toString();
+        $key = self::EVENTS_PREFIX . ':' . $id->toString();
 
         if (! $this->redis->exists($key)) {
             return 0;
@@ -67,7 +67,7 @@ class RedisMessageRepository implements MessageRepository
     }
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
-        $key = self::EVENTS_PREFIX . '_' . $id->toString();
+        $key = self::EVENTS_PREFIX . ':' . $id->toString();
 
         if (! $this->redis->exists($key)) {
             return 0;

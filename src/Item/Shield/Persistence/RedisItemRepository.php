@@ -20,7 +20,7 @@ final class RedisItemRepository implements ItemRepository
     }
     public function getById(string $id): ?ArrayCollection
     {
-        $key = self::ALL_ITEMS_PREFIX . '_' . $id;
+        $key = self::ALL_ITEMS_PREFIX . ':' . $id;
         $result = $this->redis->jsonGet($key);
         if (!$result) {
             return null;
@@ -42,7 +42,7 @@ final class RedisItemRepository implements ItemRepository
     public function findByCriteria(): ArrayCollection
     {
         $collection = new ArrayCollection();
-        $keys = $this->redis->keys(self::ALL_ITEMS_PREFIX . '_*');
+        $keys = $this->redis->keys(self::ALL_ITEMS_PREFIX . ':*');
 
         foreach ($keys as $key) {
             $result = $this->redis->jsonGet($key);

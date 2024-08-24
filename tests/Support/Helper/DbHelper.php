@@ -39,7 +39,7 @@ class DbHelper extends Module
 
     public function seeEventExists(string $aggregateRootId, string $type): bool
     {
-        $key = 'es_events_' . $aggregateRootId;
+        $key = 'es_events:' . $aggregateRootId;
 
         if (!$this->redisWrite->exists($key)) {
             return false;
@@ -59,7 +59,7 @@ class DbHelper extends Module
 
     public function seeInReadDatabase(string $prefix, string $aggregateRootId): bool
     {
-        return (bool)$this->redisRead->exists($prefix . '_' . $aggregateRootId);
+        return (bool)$this->redisRead->exists($prefix . ':' . $aggregateRootId);
     }
 
     public function haveItem(Item $item): void
