@@ -6,18 +6,19 @@ namespace Tests\Support\Helper\Domain\Item;
 
 use Redis;
 
-final class ItemRepository
+final readonly class ItemRepository
 {
     private const string ALL_ITEMS_PREFIX = 'all_items';
 
     public function __construct(
-        private Redis $redis
+        private Redis $redis,
+        private string $prefix,
     ) {
     }
 
     public function insertItem(Item $item): void
     {
-        $key = self::ALL_ITEMS_PREFIX . ':' . $item->uuid->toRfc4122();
+        $key = $this->prefix . self::ALL_ITEMS_PREFIX . ':' . $item->uuid->toRfc4122();
         $this->redis->rawCommand('JSON.SET', $key, '$', json_encode([
                 'id' => $item->uuid->toRfc4122(),
                 'name' => $item->name,

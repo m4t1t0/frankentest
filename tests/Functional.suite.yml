@@ -19,5 +19,7 @@ modules:
               connections:
                   writes:
                       dsn: '%REDIS_WRITE_REPOSITORY%'
+                      prefix: '%REDIS_PREFIX%'
                   reads:
                       dsn: '%REDIS_READ_REPOSITORY%'
+                      prefix: '%REDIS_PREFIX%'

@@ -36,11 +36,13 @@ services:
         class: App\Shared\Shield\Redis\RedisClient
         arguments:
             $dsn: '%env(REDIS_WRITE_REPOSITORY)%'
+            $prefix: '%env(REDIS_PREFIX)%'
             
     redis_client.read:
         class: App\Shared\Shield\Redis\RedisClient
         arguments:
             $dsn: '%env(REDIS_READ_REPOSITORY)%'
+            $prefix: '%env(REDIS_PREFIX)%'
     
     App\Shared\Shield\EventSourcing\RedisMessageRepository:
         arguments:

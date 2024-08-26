@@ -7,12 +7,20 @@ namespace App\Shared\Shield\Redis;
 use Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-class RedisClient implements RedisClientInterface
+final readonly class RedisClient implements RedisClientInterface
 {
     private Redis $redis;
-    public function __construct(string $dsn)
+    private string $prefix;
+
+    public function __construct(string $dsn, string $prefix)
     {
         $this->redis = RedisAdapter::createConnection($dsn);
+        $this->prefix = $prefix;
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->prefix;
     }
 
     public function get(string $key): mixed

@@ -23,6 +23,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         private readonly JsonWrapperInterface $jsonWrapper,
     ) {
     }
+
     public function persist(
         ItemId $id,
         Name $name,
@@ -35,7 +36,7 @@ final class RedisItemProjectionPersister implements ItemProjectionPersister
         string $dateUpd
     ): void
     {
-        $key = self::ALL_ITEMS_PREFIX . ':' . $id->toString();
+        $key = $this->redis->getPrefix() . self::ALL_ITEMS_PREFIX . ':' . $id->toString();
 
         $row = $this->redis->get($key);
         if ($row) {

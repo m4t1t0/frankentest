@@ -8,6 +8,7 @@ use Redis;
 
 interface RedisClientInterface
 {
+    public function getPrefix(): string;
     public function get(string $key): mixed;
     public function set(string $key, string $value): Redis|bool;
     public function exists(string $key): bool;

@@ -18,9 +18,10 @@ final class RedisItemRepository implements ItemRepository
         private readonly JsonWrapper $jsonWrapper,
     ) {
     }
+
     public function getById(string $id): ?ArrayCollection
     {
-        $key = self::ALL_ITEMS_PREFIX . ':' . $id;
+        $key = $this->redis->getPrefix() . self::ALL_ITEMS_PREFIX . ':' . $id;
         $result = $this->redis->jsonGet($key);
         if (!$result) {
             return null;
@@ -42,7 +43,7 @@ final class RedisItemRepository implements ItemRepository
     public function findByCriteria(): ArrayCollection
     {
         $collection = new ArrayCollection();
-        $keys = $this->redis->keys(self::ALL_ITEMS_PREFIX . ':*');
+        $keys = $this->redis->keys($this->redis->getPrefix() . self::ALL_ITEMS_PREFIX . ':*');
 
         foreach ($keys as $key) {
             $result = $this->redis->jsonGet($key);
