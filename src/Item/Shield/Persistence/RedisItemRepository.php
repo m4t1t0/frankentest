@@ -19,6 +19,20 @@ final class RedisItemRepository implements ItemRepository
     ) {
     }
 
+    public function createSearchIndex(): void
+    {
+        $this->redis->rawCommand(
+            'FT.CREATE',
+            'idx:all_items', 'ON', 'JSON', 'PREFIX', '1', 'all_items:', 'SCORE', '1.0', 'SCHEMA',
+            '$.name', 'AS', 'name', 'TEXT', 'WEIGHT', '1.0',
+            '$.description', 'AS', 'description', 'TEXT', 'WEIGHT', '1.0',
+            '$.location', 'AS', 'location', 'TEXT', 'WEIGHT', '1.0',
+            '$.quantity', 'AS', 'quantity', 'NUMERIC',
+            '$.price.amount', 'AS', 'price', 'NUMERIC',
+            '$.active', 'AS', 'active', 'TAG'
+        );
+    }
+
     public function getById(string $id): ?ArrayCollection
     {
         $key = $this->redis->getPrefix() . self::ALL_ITEMS_PREFIX . ':' . $id;
